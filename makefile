@@ -3,17 +3,13 @@
 #
 
 # To define any local-target
-
-AUTHOR_NAME := jizhengkang
-FROM_CHANNEL := oppo
-
 PWD=`pwd`
-ORGIN_SECOND_FRAMEWORK_NAME := secondary-framework.jar
+ORGIN_SECOND_FRAMEWORK_NAME := 
 UPDATA_PACKAGE := ${PWD}/update.zip
-CUSTOM_UPDATE := custom-update
+CUSTOM_UPDATE := ${PWD}/custom-update
 updater := $(ZIP_DIR)/META-INF/com/google/android/updater-script
 
-COLOR_FRAMEWORK_JARS := android.policy framework telephony-common services pm secondary-framework
+COLOR_FRAMEWORK_JARS := android.policy framework telephony-common services pm
 DST_SMALI_OUT := $(addsuffix .jar.out,$(COLOR_FRAMEWORK_JARS))
 TMP_SYSTEM_DIR := ${PWD}/tmp_system
 DST_JAR_OUT := $(addsuffix .jar,$(COLOR_FRAMEWORK_JARS))
@@ -45,16 +41,16 @@ resource : unzip_package
 	java -jar ${PORT_TOOLS}/apktool.jar d -f update/system/framework/framework-res.apk  out/framework-res
 	
 	#compile framework-res.apk
-	${PORT_TOOLS}/aapt_for_hm2 p -f -m -x -z -J out/gen -S ${PORT_BUILD}/res-build/oppo-overlay/res/ -S out/framework-res/res  -M out/framework-res/AndroidManifest.xml -F out/framework-res-unsigned.apk -P out/gen/public_resources.xml -A out/framework-res/assets --auto-add-overlay > compile.framework-res.log
+	${PORT_TOOLS}/aapt p -f -m -x -z -J out/gen -S ${PORT_BUILD}/res-build/oppo-overlay/res/ -S out/framework-res/res  -M out/framework-res/AndroidManifest.xml -F out/framework-res-unsigned.apk -P out/gen/public_resources.xml -A out/framework-res/assets --auto-add-overlay 
 	
 	#sign framework-res.apk
-	java -jar ${PORT_TOOLS}/signapk.jar ${PORT_TOOLS}/keys/platform.x509.pem ${PORT_TOOLS}/keys/platform.pk8  out/framework-res-unsigned.apk  out/framework-res.apk
+	java -jar ${PORT_TOOLS}/signapk.jar ${PORT_BUILD}/res-build/oppo-security/platform.x509.pem ${PORT_BUILD}/res-build/oppo-security/platform.pk8  out/framework-res-unsigned.apk  out/framework-res.apk
 	
 	#compile oppo res
-	${PORT_TOOLS}/aapt_for_oppo_mtk p -f -m -x -z -J out/gen-oppo -S ${PORT_BUILD}/res-build/oppo-framework-res/res  -M ${PORT_BUILD}/res-build/oppo-framework-res/AndroidManifest.xml -F out/oppo-framework-res-unsigned.apk -P out/gen-oppo/public_resources.xml -A ${PORT_BUILD}/res-build/oppo-framework-res/assets --oppo-package 12 --oppo-public-id 1024 -I out/framework-res.apk > compile.oppo-res.log
+	${PORT_TOOLS}/aapt p -f -m -x -z -J out/gen-oppo -S ${PORT_BUILD}/res-build/oppo-framework-res/res  -M ${PORT_BUILD}/res-build/oppo-framework-res/AndroidManifest.xml -F out/oppo-framework-res-unsigned.apk -P out/gen-oppo/public_resources.xml -A ${PORT_BUILD}/res-build/oppo-framework-res/assets --oppo-package 12 --oppo-public-id 1024 -I out/framework-res.apk
 	
 	#sign oppo-framework-res.apk
-	java -jar ${PORT_TOOLS}/signapk.jar ${PORT_TOOLS}/keys/platform.x509.pem ${PORT_TOOLS}/keys/platform.pk8  out/oppo-framework-res-unsigned.apk  out/oppo-framework-res.apk
+	java -jar ${PORT_TOOLS}/signapk.jar ${PORT_BUILD}/res-build/oppo-security/platform.x509.pem ${PORT_BUILD}/res-build/oppo-security/platform.pk8  out/oppo-framework-res-unsigned.apk  out/oppo-framework-res.apk
 
 baksmali-jar : unzip_package
 	rm -rf smali/
@@ -66,20 +62,22 @@ baksmali-jar : unzip_package
 	${PORT_TOOLS}/baksmali -a 17 -l update/system/framework/telephony-common.jar -o smali/telephony-common.jar.out
     ifneq ($(ORGIN_SECOND_FRAMEWORK_NAME), )
 		${PORT_TOOLS}/baksmali -a 17 -l update/system/framework/${ORGIN_SECOND_FRAMEWORK_NAME} -o smali/${ORGIN_SECOND_FRAMEWORK_NAME}.out
-		${PORT_TOOLS}/copy_fold.sh smali/${ORGIN_SECOND_FRAMEWORK_NAME}.out/ smali/framework.jar.out/
+		cp -rf smali/${ORGIN_SECOND_FRAMEWORK_NAME}.out/* smali/framework.jar.out/
 		rm -rf smali/${ORGIN_SECOND_FRAMEWORK_NAME}.out
     endif
 
+
+
 define JAR_template
 ${1}.jar.out : 
-	@echo "baksmali single jar file ---->${1}.jar.out "
+	echo "baksmali single jar file ->${1}.jar.out "
 	mkdir -p smali
 	rm -f ${TMP_SYSTEM_DIR}/system/framework/${1}.jar
 	unzip ${UPDATA_PACKAGE} system/framework/${1}.jar -d ${TMP_SYSTEM_DIR}
 	${PORT_TOOLS}/apktool d ${TMP_SYSTEM_DIR}/system/framework/${1}.jar smali/$$@
 	
 ${1}.jar :
-	@echo "smali single jar file ---->${1}.jar"
+	echo "smali single jar file ->${1}.jar"
 #	rm -rf smali_out
 #	mkdir -p smali_out
 	mkdir -p out/framework
@@ -94,17 +92,17 @@ $(foreach jar, $(COLOR_FRAMEWORK_JARS), \
 	$(eval $(call JAR_template,$(jar))))
 
 cleansmali :
-	@echo "cleansmali"
+	echo "cleansmali"
 	rm -rf ${TMP_SYSTEM_DIR}
 	rm -rf smali
 	
 	mkdir -p ${TMP_SYSTEM_DIR}
 	mkdir -p smali
 	
-	@echo ""
+	echo ""
 
 getsmali1 : ${DST_SMALI_OUT} ${TMP_OUT_DIR}
-	@echo "test"
+	echo "test"
 	rm -rf ${TMP_SYSTEM_DIR}
 	rm -rf smali
 	
@@ -118,34 +116,31 @@ getsmali : cleansmali ${DST_SMALI_OUT} ${TMP_OUT_DIR}
 .PHONY : getsmali
 
 firstpatch : getsmali resource
-#    ifneq ($(ORGIN_SECOND_FRAMEWORK_NAME), )
-#		${PORT_TOOLS}/copy_fold.sh smali/${ORGIN_SECOND_FRAMEWORK_NAME}.out/ smali/framework.jar.out/
-#		rm -rf smali/${ORGIN_SECOND_FRAMEWORK_NAME}.out
-#    endif
+        ifneq ($(ORGIN_SECOND_FRAMEWORK_NAME), )
+		cp -rf smali/${ORGIN_SECOND_FRAMEWORK_NAME}.out/* smali/framework.jar.out/
+		rm -rf smali/${ORGIN_SECOND_FRAMEWORK_NAME}.out
+        endif
 	${PORT_TOOLS}/patch_color_framework.sh ${PORT_ROOT}/smali/android ${PORT_ROOT}/smali/color ${PWD}/smali/
 	
 fullota : ${DST_JAR_OUT}
 	@echo "Build the full update package"
 	rm -rf new-update/
-	${PORT_TOOLS}/copy_fold.sh update/ new-update/
-	echo "ro.build.author=${AUTHOR_NAME}" >> new-update/system/build.prop
-	echo "ro.build.channel=${FROM_CHANNEL}" >> new-update/system/build.prop
+	cp -rf update/ new-update/
 	rm -rf new-update/system/app/*
 	@echo "${PORT_BUILD}/ColorSystem/*"
-	${PORT_TOOLS}/copy_fold.sh ${PORT_BUILD}/ColorSystem new-update/system
-	${PORT_TOOLS}/copy_fold.sh out/framework new-update/system/framework
-	${PORT_TOOLS}/copy_fold.sh out/framework-res.apk new-update/system/framework/
-	${PORT_TOOLS}/copy_fold.sh out/oppo-framework-res.apk new-update/system/framework/
+	cp -rf ${PORT_BUILD}/ColorSystem/* new-update/system
+	cp -rf out/framework new-update/system
+	cp out/framework-res.apk new-update/system/framework/
+	cp out/oppo-framework-res.apk new-update/system/framework/
 
 #we will use $(CUSTOM_UPDATE) to cover, so you need put your change file or some apk can't be deleted
-	${PORT_TOOLS}/copy_fold.sh ${CUSTOM_UPDATE} new-update/
+    ifeq ($(wildcard ${PWD}/${CUSTOM_UPDATE}), ${PWD}/${CUSTOM_UPDATE})
+		cp -rf ${PWD}/${CUSTOM_UPDATE}/* new-update/
+    endif
 
 	${PORT_TOOLS}/resign.sh dir new-update
 	rm -f color-update.zip
 	cd new-update/; zip -q -r -y color-update.zip .; mv color-update.zip ..
-	
-count :
-	@${PORT_TOOLS}/compute_percent.sh
 
 clean :
 	rm -rf out/
@@ -153,6 +148,5 @@ clean :
 	rm -rf temp/
 	rm -rf update/
 	rm -rf new-update/
-	rm -rf tmp_system
-	rm -rf *.log
+	rm -rf tmp_*
 	
