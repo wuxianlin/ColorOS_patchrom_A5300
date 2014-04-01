@@ -4,7 +4,7 @@
 
 # To define any local-target
 
-AUTHOR_NAME := jizhengkang
+AUTHOR_NAME := wuxianlin
 FROM_CHANNEL := oppo
 
 PWD=`pwd`
