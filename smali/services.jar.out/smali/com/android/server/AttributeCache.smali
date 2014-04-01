@@ -110,8 +110,6 @@
     return-object v0
 .end method
 
-
-# virtual methods
 .method public get(ILjava/lang/String;I[I)Lcom/android/server/AttributeCache$Entry;
     .locals 11
     .parameter "userId"

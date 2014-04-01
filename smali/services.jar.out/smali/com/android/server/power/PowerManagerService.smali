@@ -9205,15 +9205,7 @@
 
     iget-object v2, v0, Lcom/android/server/power/PowerManagerService;->mLightsService:Lcom/android/server/LightsService;
 
-    const/4 v3, 0x2
-
-    invoke-virtual {v2, v3}, Lcom/android/server/LightsService;->getLight(I)Lcom/android/server/LightsService$Light;
-
-    move-result-object v2
-
-    move-object/from16 v0, p0
-
-    iput-object v2, v0, Lcom/android/server/power/PowerManagerService;->mButtonLight:Lcom/android/server/LightsService$Light;
+    invoke-static {v2}, Lcom/android/server/power/PowerManagerService$OppoHelper;->setButtonLight(Lcom/android/server/LightsService;)V
 
     .line 500
     new-instance v13, Landroid/content/IntentFilter;

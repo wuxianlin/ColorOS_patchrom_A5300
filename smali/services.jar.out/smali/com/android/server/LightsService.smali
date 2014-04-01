@@ -52,22 +52,28 @@
 
 .field private final mLegacyFlashlightHack:Landroid/os/IHardwareService$Stub;
 
-.field private final mLights:[Lcom/android/server/LightsService$Light;
+.field final mLights:[Lcom/android/server/LightsService$Light;
+    .annotation build Landroid/annotation/OppoHook;
+        level = .enum Landroid/annotation/OppoHook$OppoHookType;->CHANGE_ACCESS:Landroid/annotation/OppoHook$OppoHookType;
+        note = "Jun.Zhang@Plf.Framework, [-private]:modify for button light"
+        property = .enum Landroid/annotation/OppoHook$OppoRomType;->ROM:Landroid/annotation/OppoHook$OppoRomType;
+    .end annotation
+.end field
 
 .field private mNativePointer:I
 
 
 # direct methods
 .method constructor <init>(Landroid/content/Context;)V
-    .locals 5
+    .locals 4
     .parameter "context"
 
     .prologue
-    const/16 v4, 0x8
+    const/16 v3, 0x8
 
-    invoke-direct/range {p0 .. p0}, Ljava/lang/Object;-><init>()V
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    new-array v1, v4, [Lcom/android/server/LightsService$Light;
+    new-array v1, v3, [Lcom/android/server/LightsService$Light;
 
     iput-object v1, p0, Lcom/android/server/LightsService;->mLights:[Lcom/android/server/LightsService$Light;
 

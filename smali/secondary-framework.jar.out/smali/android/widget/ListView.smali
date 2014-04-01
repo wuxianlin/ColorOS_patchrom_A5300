@@ -3143,20 +3143,47 @@
     .locals 11
     .parameter "position"
     .parameter "top"
+    .annotation build Landroid/annotation/OppoHook;
+        level = .enum Landroid/annotation/OppoHook$OppoHookType;->CHANGE_CODE:Landroid/annotation/OppoHook$OppoHookType;
+        note = "Jianhui.Yu@Plf.SDK,2013.10.07:Add for list remove animation"
+        property = .enum Landroid/annotation/OppoHook$OppoRomType;->ROM:Landroid/annotation/OppoHook$OppoRomType;
+    .end annotation
 
     .prologue
     const/4 v3, 0x1
 
-    .line 1323
+    iget-object v0, p0, Landroid/widget/ListView;->mOppoHooks:Landroid/widget/OppoListViewHooks;
+
+    iget-object v0, v0, Landroid/widget/OppoListViewHooks;->mRemoveImpl:Landroid/widget/OppoListViewHooks$RemoveImpl;
+
+    invoke-virtual {v0}, Landroid/widget/OppoListViewHooks$RemoveImpl;->hasRemovedItems()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_1
+
+    iget-object v0, p0, Landroid/widget/ListView;->mOppoHooks:Landroid/widget/OppoListViewHooks;
+
+    iget-object v0, v0, Landroid/widget/OppoListViewHooks;->mRemoveImpl:Landroid/widget/OppoListViewHooks$RemoveImpl;
+
+    invoke-virtual {v0, p1, p2}, Landroid/widget/OppoListViewHooks$RemoveImpl;->fillSpecific(II)Landroid/view/View;
+
+    move-result-object v10
+
+    :cond_0
+    :goto_0
+    return-object v10
+
+    :cond_1
     iget v0, p0, Landroid/widget/AdapterView;->mSelectedPosition:I
 
-    if-ne p1, v0, :cond_1
+    if-ne p1, v0, :cond_3
 
     move v5, v3
 
     .line 1324
     .local v5, tempIsSelected:Z
-    :goto_0
+    :goto_1
     iget-object v0, p0, Landroid/widget/AbsListView;->mListPadding:Landroid/graphics/Rect;
 
     iget v4, v0, Landroid/graphics/Rect;->left:I

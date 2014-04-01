@@ -5627,12 +5627,22 @@
     .line 3875
     invoke-super {p0, p1}, Landroid/widget/AdapterView;->draw(Landroid/graphics/Canvas;)V
 
-    .line 3876
+    invoke-direct {p0}, Landroid/widget/AbsListView;->scrolling()V
+
     iget-object v8, p0, Landroid/widget/AbsListView;->mEdgeGlowTop:Landroid/widget/EdgeEffect;
 
     if-eqz v8, :cond_3
 
-    .line 3877
+    invoke-virtual {p0}, Landroid/widget/AbsListView;->getContext()Landroid/content/Context;
+
+    move-result-object v8
+
+    invoke-virtual {v8}, Landroid/content/Context;->isOppoStyle()Z
+
+    move-result v8
+
+    if-nez v8, :cond_3
+
     iget v6, p0, Landroid/view/View;->mScrollY:I
 
     .line 3878

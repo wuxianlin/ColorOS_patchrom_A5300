@@ -2305,39 +2305,6 @@
     return-void
 .end method
 
-.method static synthetic access$700(Ljava/util/ArrayList;)V
-    .locals 0
-    .parameter "x0"
-
-    .prologue
-    .line 179
-    invoke-static {p0}, Lcom/android/server/am/ActivityManagerService;->writeLastDonePreBootReceivers(Ljava/util/ArrayList;)V
-
-    return-void
-.end method
-
-.method static synthetic access$800(Lcom/android/server/am/ActivityManagerService;)Ljava/lang/StringBuilder;
-    .locals 1
-    .parameter "x0"
-
-    .prologue
-    .line 179
-    iget-object v0, p0, Lcom/android/server/am/ActivityManagerService;->mStrictModeBuffer:Ljava/lang/StringBuilder;
-
-    return-object v0
-.end method
-
-.method static synthetic access$900(Lcom/android/server/am/ActivityManagerService;)Z
-    .locals 1
-    .parameter "x0"
-
-    .prologue
-    .line 179
-    iget-boolean v0, p0, Lcom/android/server/am/ActivityManagerService;->mNotTargetException:Z
-
-    return v0
-.end method
-
 .method private activityIdleScreen(Landroid/os/IBinder;)V
     .locals 18
     .parameter "token"

@@ -117,17 +117,17 @@
 
     const/4 v4, 0x1
 
-    const/4 v2, 0x0
+    const/4 v3, 0x0
 
     invoke-direct/range {p0 .. p0}, Ljava/lang/Object;-><init>()V
 
     iput-boolean v4, p0, Landroid/app/Dialog;->mCancelable:Z
 
-    iput-boolean v2, p0, Landroid/app/Dialog;->mCreated:Z
+    iput-boolean v3, p0, Landroid/app/Dialog;->mCreated:Z
 
-    iput-boolean v2, p0, Landroid/app/Dialog;->mShowing:Z
+    iput-boolean v3, p0, Landroid/app/Dialog;->mShowing:Z
 
-    iput-boolean v2, p0, Landroid/app/Dialog;->mCanceled:Z
+    iput-boolean v3, p0, Landroid/app/Dialog;->mCanceled:Z
 
     new-instance v2, Landroid/os/Handler;
 
