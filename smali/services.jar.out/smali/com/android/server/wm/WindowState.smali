@@ -3955,7 +3955,7 @@
 
     iget-object v3, p0, Lcom/android/server/wm/WindowState;->mAttrs:Landroid/view/WindowManager$LayoutParams;
 
-    iget-object v4, p0, Lcom/android/server/wm/WindowState;->mChildWindows:Ljava/util/ArrayList;
+    iget-object v4, p0, Lcom/android/server/wm/WindowState;->mChildWindows:Lcom/android/server/wm/WindowList;
 
     invoke-static {v3, v4, p1, p2}, Lcom/android/server/wm/OppoWindowStateHelper;->hideLwExtr(Landroid/view/WindowManager$LayoutParams;Ljava/util/ArrayList;ZZ)Z
 
@@ -5755,7 +5755,7 @@
     :cond_2
     iget-object v0, p0, Lcom/android/server/wm/WindowState;->mAttrs:Landroid/view/WindowManager$LayoutParams;
 
-    iget-object v2, p0, Lcom/android/server/wm/WindowState;->mChildWindows:Ljava/util/ArrayList;
+    iget-object v2, p0, Lcom/android/server/wm/WindowState;->mChildWindows:Lcom/android/server/wm/WindowList;
 
     invoke-static {v0, v2, p1, p2}, Lcom/android/server/wm/OppoWindowStateHelper;->showLwExtr(Landroid/view/WindowManager$LayoutParams;Ljava/util/ArrayList;ZZ)Z
 

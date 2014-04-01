@@ -66,8 +66,6 @@
 .field startingWindow:Lcom/android/server/wm/WindowState;
 
 .field final userId:I
-
-.field final userId:I
     .annotation build Landroid/annotation/OppoHook;
         level = .enum Landroid/annotation/OppoHook$OppoHookType;->NEW_FIELD:Landroid/annotation/OppoHook$OppoHookType;
         note = "Jianjun.Dan@Plf.SDK,2014.03.04 :add for QCOM and MTK with Google source code differences "

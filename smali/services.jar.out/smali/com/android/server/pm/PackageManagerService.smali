@@ -2257,7 +2257,7 @@
     .line 1200
     move-object/from16 v0, p0
 
-    move-object/from16 v1, v24
+    move-object/from16 v1, v25
 
     invoke-direct {v0, v1}, Lcom/android/server/pm/PackageManagerService;->ignoreOppoFrameworkRes(Ljava/util/HashSet;)V
 
