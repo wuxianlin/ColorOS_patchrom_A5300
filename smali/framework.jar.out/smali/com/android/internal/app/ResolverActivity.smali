@@ -422,12 +422,6 @@
     .parameter "initialIntents"
     .parameter
     .parameter "alwaysUseOption"
-    .annotation build Landroid/annotation/OppoHook;
-        level = .enum Landroid/annotation/OppoHook$OppoHookType;->CHANGE_RESOURCE:Landroid/annotation/OppoHook$OppoHookType;
-        note = "Jianjun.Dan@Prf.SDK,2013.10.05: Modify for change oppo theme "
-        property = .enum Landroid/annotation/OppoHook$OppoRomType;->ROM:Landroid/annotation/OppoHook$OppoRomType;
-    .end annotation
-
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
@@ -444,13 +438,16 @@
     .end annotation
 
     .prologue
+    .line 109
     .local p5, rList:Ljava/util/List;,"Ljava/util/List<Landroid/content/pm/ResolveInfo;>;"
-    const v1, 0xc030007
+    const v1, 0x103030f
 
     invoke-virtual {p0, v1}, Lcom/android/internal/app/ResolverActivity;->setTheme(I)V
 
+    .line 110
     invoke-super {p0, p1}, Lcom/android/internal/app/AlertActivity;->onCreate(Landroid/os/Bundle;)V
 
+    .line 112
     :try_start_0
     invoke-static {}, Landroid/app/ActivityManagerNative;->getDefault()Landroid/app/IActivityManager;
 
@@ -798,11 +795,6 @@
     .parameter "ri"
     .parameter "intent"
     .parameter "alwaysCheck"
-    .annotation build Landroid/annotation/OppoHook;
-        level = .enum Landroid/annotation/OppoHook$OppoHookType;->CHANGE_CODE:Landroid/annotation/OppoHook$OppoHookType;
-        note = "Xiaokang.Feng@Plf.SDK,2013.10.05: Modify for change acitivity animation"
-        property = .enum Landroid/annotation/OppoHook$OppoRomType;->ROM:Landroid/annotation/OppoHook$OppoRomType;
-    .end annotation
 
     .prologue
     .line 290
@@ -1292,24 +1284,14 @@
     :cond_b
     if-eqz p2, :cond_c
 
+    .line 371
     move-object/from16 v0, p0
 
     move-object/from16 v1, p2
 
     invoke-virtual {v0, v1}, Lcom/android/internal/app/ResolverActivity;->startActivity(Landroid/content/Intent;)V
 
-    const v21, 0xc0a0009
-
-    const v22, 0xc0a0008
-
-    move-object/from16 v0, p0
-
-    move/from16 v1, v21
-
-    move/from16 v2, v22
-
-    invoke-virtual {v0, v1, v2}, Lcom/android/internal/app/ResolverActivity;->overridePendingTransition(II)V
-
+    .line 373
     :cond_c
     return-void
 .end method
@@ -1590,11 +1572,6 @@
 .method showAppDetails(Landroid/content/pm/ResolveInfo;)V
     .locals 5
     .parameter "ri"
-    .annotation build Landroid/annotation/OppoHook;
-        level = .enum Landroid/annotation/OppoHook$OppoHookType;->CHANGE_CODE:Landroid/annotation/OppoHook$OppoHookType;
-        note = "Xiaokang.Feng@Plf.SDK,2013.10.05: Modify for change acitivity animation"
-        property = .enum Landroid/annotation/OppoHook$OppoRomType;->ROM:Landroid/annotation/OppoHook$OppoRomType;
-    .end annotation
 
     .prologue
     .line 376
@@ -1630,15 +1607,11 @@
 
     move-result-object v0
 
+    .line 379
     .local v0, in:Landroid/content/Intent;
     invoke-virtual {p0, v0}, Lcom/android/internal/app/ResolverActivity;->startActivity(Landroid/content/Intent;)V
 
-    const v1, 0xc0a0009
-
-    const v2, 0xc0a0008
-
-    invoke-virtual {p0, v1, v2}, Lcom/android/internal/app/ResolverActivity;->overridePendingTransition(II)V
-
+    .line 380
     return-void
 .end method
 
@@ -1672,84 +1645,4 @@
 
     .line 287
     return-void
-.end method
-
-.method oppoLoadIconForResolveInfo(Landroid/content/pm/ResolveInfo;)Landroid/graphics/drawable/Drawable;
-    .locals 7
-    .parameter "ri"
-    .annotation build Landroid/annotation/OppoHook;
-        level = .enum Landroid/annotation/OppoHook$OppoHookType;->NEW_METHOD:Landroid/annotation/OppoHook$OppoHookType;
-        note = "Xiaokang.Feng@Plf.SDK, add for ConvertIcon"
-        property = .enum Landroid/annotation/OppoHook$OppoRomType;->ROM:Landroid/annotation/OppoHook$OppoRomType;
-    .end annotation
-
-    .prologue
-    const/4 v6, 0x0
-
-    iget-object v2, p1, Landroid/content/pm/ResolveInfo;->resolvePackageName:Ljava/lang/String;
-
-    if-eqz v2, :cond_1
-
-    iget v2, p1, Landroid/content/pm/ResolveInfo;->icon:I
-
-    if-eqz v2, :cond_1
-
-    iget-object v2, p0, Lcom/android/internal/app/ResolverActivity;->mPm:Landroid/content/pm/PackageManager;
-
-    iget-object v3, p1, Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;
-
-    iget-object v3, v3, Landroid/content/pm/ActivityInfo;->packageName:Ljava/lang/String;
-
-    iget v4, p1, Landroid/content/pm/ResolveInfo;->icon:I
-
-    iget-object v5, p1, Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;
-
-    iget-object v5, v5, Landroid/content/pm/ActivityInfo;->applicationInfo:Landroid/content/pm/ApplicationInfo;
-
-    invoke-static {v2, v3, v4, v5, v6}, Landroid/app/OppoThemeHelper;->getDrawable(Landroid/content/pm/PackageManager;Ljava/lang/String;ILandroid/content/pm/ApplicationInfo;Ljava/lang/String;)Landroid/graphics/drawable/Drawable;
-
-    move-result-object v0
-
-    .local v0, dr:Landroid/graphics/drawable/Drawable;
-    if-eqz v0, :cond_1
-
-    .end local v0           #dr:Landroid/graphics/drawable/Drawable;
-    :cond_0
-    :goto_0
-    return-object v0
-
-    :cond_1
-    invoke-virtual {p1}, Landroid/content/pm/ResolveInfo;->getIconResource()I
-
-    move-result v1
-
-    .local v1, iconRes:I
-    if-eqz v1, :cond_2
-
-    iget-object v2, p0, Lcom/android/internal/app/ResolverActivity;->mPm:Landroid/content/pm/PackageManager;
-
-    iget-object v3, p1, Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;
-
-    iget-object v3, v3, Landroid/content/pm/ActivityInfo;->packageName:Ljava/lang/String;
-
-    iget-object v4, p1, Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;
-
-    iget-object v4, v4, Landroid/content/pm/ActivityInfo;->applicationInfo:Landroid/content/pm/ApplicationInfo;
-
-    invoke-static {v2, v3, v1, v4, v6}, Landroid/app/OppoThemeHelper;->getDrawable(Landroid/content/pm/PackageManager;Ljava/lang/String;ILandroid/content/pm/ApplicationInfo;Ljava/lang/String;)Landroid/graphics/drawable/Drawable;
-
-    move-result-object v0
-
-    .restart local v0       #dr:Landroid/graphics/drawable/Drawable;
-    if-nez v0, :cond_0
-
-    .end local v0           #dr:Landroid/graphics/drawable/Drawable;
-    :cond_2
-    iget-object v2, p0, Lcom/android/internal/app/ResolverActivity;->mPm:Landroid/content/pm/PackageManager;
-
-    invoke-virtual {p1, v2}, Landroid/content/pm/ResolveInfo;->loadIcon(Landroid/content/pm/PackageManager;)Landroid/graphics/drawable/Drawable;
-
-    move-result-object v0
-
-    goto :goto_0
 .end method

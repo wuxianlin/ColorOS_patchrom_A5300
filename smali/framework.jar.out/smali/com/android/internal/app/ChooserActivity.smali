@@ -1,6 +1,14 @@
 .class public Lcom/android/internal/app/ChooserActivity;
-.super Lcom/android/internal/app/ResolverActivity;
+.super Lcom/android/internal/app/OppoResolverActivity;
 .source "ChooserActivity.java"
+
+
+# annotations
+.annotation build Landroid/annotation/OppoHook;
+    level = .enum Landroid/annotation/OppoHook$OppoHookType;->CHANGE_BASE_CLASS:Landroid/annotation/OppoHook$OppoHookType;
+    note = "Jianhua.Lin@Plf.SDK : [ResolverActivity -> OppoResolverActivity]"
+    property = .enum Landroid/annotation/OppoHook$OppoRomType;->ROM:Landroid/annotation/OppoHook$OppoRomType;
+.end annotation
 
 
 # direct methods
@@ -8,8 +16,7 @@
     .locals 0
 
     .prologue
-    .line 24
-    invoke-direct {p0}, Lcom/android/internal/app/ResolverActivity;-><init>()V
+    invoke-direct {p0}, Lcom/android/internal/app/OppoResolverActivity;-><init>()V
 
     return-void
 .end method
@@ -200,7 +207,7 @@
 
     move-object v1, p1
 
-    invoke-super/range {v0 .. v6}, Lcom/android/internal/app/ResolverActivity;->onCreate(Landroid/os/Bundle;Landroid/content/Intent;Ljava/lang/CharSequence;[Landroid/content/Intent;Ljava/util/List;Z)V
+    invoke-super/range {v0 .. v6}, Lcom/android/internal/app/OppoResolverActivity;->onCreate(Landroid/os/Bundle;Landroid/content/Intent;Ljava/lang/CharSequence;[Landroid/content/Intent;Ljava/util/List;Z)V
 
     goto :goto_0
 .end method

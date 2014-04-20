@@ -4399,9 +4399,9 @@
 
     .line 1873
     :cond_4
-    iget-object v4, p0, Lcom/android/server/power/PowerManagerService;->mButtonLight:Lcom/android/server/LightsService$Light;
+    #iget-object v4, p0, Lcom/android/server/power/PowerManagerService;->mButtonLight:Lcom/android/server/LightsService$Light;
 
-#    invoke-virtual {v4, v3}, Lcom/android/server/LightsService$Light;->setBrightness(I)V
+    #invoke-virtual {v4, v3}, Lcom/android/server/LightsService$Light;->setBrightness(I)V
 
     .line 1874
     const-string v4, "PowerManagerService"
@@ -4594,9 +4594,9 @@
 
     .line 1876
     :cond_c
-    iget-object v4, p0, Lcom/android/server/power/PowerManagerService;->mButtonLight:Lcom/android/server/LightsService$Light;
+    #iget-object v4, p0, Lcom/android/server/power/PowerManagerService;->mButtonLight:Lcom/android/server/LightsService$Light;
 
-#    invoke-virtual {v4}, Lcom/android/server/LightsService$Light;->turnOff()V
+    #invoke-virtual {v4}, Lcom/android/server/LightsService$Light;->turnOff()V
 
     .line 1877
     const-string v4, "PowerManagerService"
@@ -4609,9 +4609,9 @@
 
     .line 1880
     :cond_d
-    iget-object v4, p0, Lcom/android/server/power/PowerManagerService;->mButtonLight:Lcom/android/server/LightsService$Light;
+    #iget-object v4, p0, Lcom/android/server/power/PowerManagerService;->mButtonLight:Lcom/android/server/LightsService$Light;
 
-#    invoke-virtual {v4}, Lcom/android/server/LightsService$Light;->turnOff()V
+    #invoke-virtual {v4}, Lcom/android/server/LightsService$Light;->turnOff()V
 
     .line 1881
     const-string v4, "PowerManagerService"

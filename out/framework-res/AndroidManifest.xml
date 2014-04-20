@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest android:sharedUserId="android.uid.system" android:versionCode="17" android:versionName="4.2.1-eng.ser4.1380104253" android:sharedUserLabel="@string/android_system_label" package="android" coreApp="true"
   xmlns:android="http://schemas.android.com/apk/res/android">
+  
+      <uses-sdk
+        android:minSdkVersion="17"
+        android:targetSdkVersion="17" />
+  
     <eat-comment />
     <protected-broadcast android:name="android.intent.action.SCREEN_OFF" />
     <protected-broadcast android:name="android.intent.action.SCREEN_ON" />

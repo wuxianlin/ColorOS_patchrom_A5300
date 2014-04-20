@@ -19134,7 +19134,7 @@
 
     iget-object v3, v3, Landroid/content/pm/ApplicationInfo;->nativeLibraryDir:Ljava/lang/String;
 
-    if-eqz v3, :cond_3e
+    if-eqz v3, :cond_29
 
     :try_start_4
     new-instance v34, Ljava/io/File;
@@ -19155,90 +19155,146 @@
     move-result-object v21
 
     .local v21, dataPathString:Ljava/lang/String;
-    invoke-static/range {p1 .. p1}, Lcom/android/server/pm/PackageManagerService;->isForwardLocked(Landroid/content/pm/PackageParser$Package;)Z
+    invoke-static/range {p1 .. p1}, Lcom/android/server/pm/PackageManagerService;->isSystemApp(Landroid/content/pm/PackageParser$Package;)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_3a
+
+    invoke-static/range {p1 .. p1}, Lcom/android/server/pm/PackageManagerService;->isUpdatedSystemApp(Landroid/content/pm/PackageParser$Package;)Z
 
     move-result v3
 
     if-nez v3, :cond_3a
 
-    invoke-static/range {p1 .. p1}, Lcom/android/server/pm/PackageManagerService;->isExternal(Landroid/content/pm/PackageParser$Package;)Z
+    move-object/from16 v0, p1
+
+    iget-object v3, v0, Landroid/content/pm/PackageParser$Package;->packageName:Ljava/lang/String;
+
+    invoke-static {v3}, Lcom/android/server/pm/OppoPackageManagerHelper;->IsForceUnpackNativeLibList(Ljava/lang/String;)Z
 
     move-result v3
 
     if-nez v3, :cond_3a
 
-    invoke-virtual/range {v34 .. v34}, Ljava/io/File;->getPath()Ljava/lang/String;
-
-    move-result-object v3
-
-    move-object/from16 v0, v21
-
-    invoke-virtual {v3, v0}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+    invoke-static/range {v34 .. v34}, Lcom/android/internal/content/NativeLibraryHelper;->removeNativeBinariesFromDirLI(Ljava/io/File;)Z
 
     move-result v3
 
     if-eqz v3, :cond_29
 
+    const-string v3, "PackageManager"
+
+    new-instance v4, Ljava/lang/StringBuilder;
+
+    invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v10, "removed obsolete native libraries for system package "
+
+    invoke-virtual {v4, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v4
+
+    move-object/from16 v0, v41
+
+    invoke-virtual {v4, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v4
+
+    invoke-virtual {v4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-static {v3, v4}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+    :try_end_4
+    .catch Ljava/io/IOException; {:try_start_4 .. :try_end_4} :catch_2
+
+    .end local v21           #dataPathString:Ljava/lang/String;
+    .end local v34           #nativeLibraryDir:Ljava/io/File;
+    :cond_29
+    :goto_f
+    move-object/from16 v0, v41
+
+    move-object/from16 v1, p1
+
+    iput-object v0, v1, Landroid/content/pm/PackageParser$Package;->mScanPath:Ljava/lang/String;
+
+    and-int/lit8 v3, p3, 0x2
+
+    if-eqz v3, :cond_color1
+
+    move-object/from16 v0, p1
+
+    iget-object v3, v0, Landroid/content/pm/PackageParser$Package;->packageName:Ljava/lang/String;
+
+    invoke-static {v3}, Lcom/android/server/pm/OppoPackageManagerHelper;->IsPredexOptList(Ljava/lang/String;)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_40
+
+    :cond_color1
+    const-string v3, "PackageManager"
+
+    new-instance v4, Ljava/lang/StringBuilder;
+
+    invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v10, "Perform pre-dex opt for package: "
+
+    invoke-virtual {v4, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v4
+
+    move-object/from16 v0, p1
+
+    iget-object v10, v0, Landroid/content/pm/PackageParser$Package;->packageName:Ljava/lang/String;
+
+    invoke-virtual {v4, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v4
+
+    invoke-virtual {v4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-static {v3, v4}, Landroid/util/Slog;->i(Ljava/lang/String;Ljava/lang/String;)I
+
+    move/from16 v0, p3
+
+    and-int/lit16 v3, v0, 0x80
+
+    if-eqz v3, :cond_3f
+
+    const/4 v3, 0x1
+
+    :goto_10
     move-object/from16 v0, p0
 
     move-object/from16 v1, p1
 
-    move-object/from16 v2, v45
+    move/from16 v2, v24
 
-    invoke-direct {v0, v1, v2}, Lcom/android/server/pm/PackageManagerService;->setInternalAppNativeLibraryPath(Landroid/content/pm/PackageParser$Package;Lcom/android/server/pm/PackageSetting;)V
-
-    new-instance v34, Ljava/io/File;
-
-    .end local v34           #nativeLibraryDir:Ljava/io/File;
-    move-object/from16 v0, p1
-
-    iget-object v3, v0, Landroid/content/pm/PackageParser$Package;->applicationInfo:Landroid/content/pm/ApplicationInfo;
-
-    iget-object v3, v3, Landroid/content/pm/ApplicationInfo;->nativeLibraryDir:Ljava/lang/String;
-
-    move-object/from16 v0, v34
-
-    invoke-direct {v0, v3}, Ljava/io/File;-><init>(Ljava/lang/String;)V
-    :try_end_4
-    .catch Ljava/io/IOException; {:try_start_4 .. :try_end_4} :catch_2
-
-    .restart local v34       #nativeLibraryDir:Ljava/io/File;
-    :cond_29
-    :try_start_5
-    move-object/from16 v0, v52
-
-    move-object/from16 v1, v34
-
-    invoke-static {v0, v1}, Lcom/android/server/pm/PackageManagerService;->copyNativeLibrariesForInternalApp(Ljava/io/File;Ljava/io/File;)I
+    invoke-direct {v0, v1, v2, v3}, Lcom/android/server/pm/PackageManagerService;->performDexOptLI(Landroid/content/pm/PackageParser$Package;ZZ)I
 
     move-result v3
 
-    const/4 v4, 0x1
+    const/4 v4, -0x1
 
-    if-eq v3, v4, :cond_3a
+    if-ne v3, v4, :cond_40
 
-    const-string v3, "PackageManager"
-
-    const-string v4, "Unable to copy native libraries"
-
-    invoke-static {v3, v4}, Landroid/util/Slog;->e(Ljava/lang/String;Ljava/lang/String;)I
-
-    const/16 v3, -0x6e
+    const/16 v3, -0xb
 
     move-object/from16 v0, p0
 
     iput v3, v0, Lcom/android/server/pm/PackageManagerService;->mLastScanError:I
-    :try_end_5
-    .catch Ljava/io/IOException; {:try_start_5 .. :try_end_5} :catch_1
 
     const/16 p1, 0x0
 
     goto/16 :goto_0
 
     .end local v20           #dataPath:Ljava/io/File;
-    .end local v21           #dataPathString:Ljava/lang/String;
     .end local v24           #forceDex:Z
-    .end local v34           #nativeLibraryDir:Ljava/io/File;
     .end local v41           #path:Ljava/lang/String;
     :cond_2a
     const/16 v24, 0x0
@@ -19272,7 +19328,7 @@
     const/16 v19, 0x0
 
     .local v19, currentUid:I
-    :try_start_6
+    :try_start_5
     sget-object v3, Llibcore/io/Libcore;->os:Llibcore/io/Os;
 
     invoke-virtual/range {v20 .. v20}, Ljava/io/File;->getPath()Ljava/lang/String;
@@ -19289,11 +19345,11 @@
     iget v0, v0, Llibcore/io/StructStat;->st_uid:I
 
     move/from16 v19, v0
-    :try_end_6
-    .catch Llibcore/io/ErrnoException; {:try_start_6 .. :try_end_6} :catch_0
+    :try_end_5
+    .catch Llibcore/io/ErrnoException; {:try_start_5 .. :try_end_5} :catch_0
 
     .end local v55           #stat:Llibcore/io/StructStat;
-    :goto_f
+    :goto_11
     move-object/from16 v0, p1
 
     iget-object v3, v0, Landroid/content/pm/PackageParser$Package;->applicationInfo:Landroid/content/pm/ApplicationInfo;
@@ -19415,7 +19471,7 @@
     const-string v46, "System package "
 
     .local v46, prefix:Ljava/lang/String;
-    :goto_10
+    :goto_12
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
@@ -19581,7 +19637,7 @@
 
     invoke-static {v3, v4, v0}, Landroid/util/Slog;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
 
-    goto/16 :goto_f
+    goto/16 :goto_11
 
     .end local v22           #e:Llibcore/io/ErrnoException;
     .restart local v48       #recovered:Z
@@ -19589,7 +19645,7 @@
     :cond_2e
     const-string v46, "Third party package "
 
-    goto/16 :goto_10
+    goto/16 :goto_12
 
     :cond_2f
     if-nez v48, :cond_30
@@ -19721,7 +19777,7 @@
 
     monitor-enter v4
 
-    :try_start_7
+    :try_start_6
     move-object/from16 v0, p0
 
     iget-object v3, v0, Lcom/android/server/pm/PackageManagerService;->mSettings:Lcom/android/server/pm/Settings;
@@ -19758,8 +19814,8 @@
 
     :cond_31
     monitor-exit v4
-    :try_end_7
-    .catchall {:try_start_7 .. :try_end_7} :catchall_2
+    :try_end_6
+    .catchall {:try_start_6 .. :try_end_6} :catchall_2
 
     .end local v32           #msg:Ljava/lang/String;
     .end local v48           #recovered:Z
@@ -19775,7 +19831,7 @@
     iput-object v4, v3, Landroid/content/pm/ApplicationInfo;->dataDir:Ljava/lang/String;
 
     .end local v19           #currentUid:I
-    :goto_11
+    :goto_13
     move-object/from16 v0, p1
 
     iget-object v3, v0, Landroid/content/pm/PackageParser$Package;->applicationInfo:Landroid/content/pm/ApplicationInfo;
@@ -19807,7 +19863,7 @@
     invoke-direct {v0, v1, v2}, Lcom/android/server/pm/PackageManagerService;->setInternalAppNativeLibraryPath(Landroid/content/pm/PackageParser$Package;Lcom/android/server/pm/PackageSetting;)V
 
     :cond_33
-    :goto_12
+    :goto_14
     move/from16 v0, v57
 
     move-object/from16 v1, v45
@@ -19835,10 +19891,10 @@
     :catchall_2
     move-exception v3
 
-    :try_start_8
+    :try_start_7
     monitor-exit v4
-    :try_end_8
-    .catchall {:try_start_8 .. :try_end_8} :catchall_2
+    :try_end_7
+    .catchall {:try_start_7 .. :try_end_7} :catchall_2
 
     throw v3
 
@@ -19923,7 +19979,7 @@
 
     iput-object v4, v3, Landroid/content/pm/ApplicationInfo;->dataDir:Ljava/lang/String;
 
-    goto/16 :goto_11
+    goto/16 :goto_13
 
     :cond_38
     const-string v3, "PackageManager"
@@ -19958,7 +20014,7 @@
 
     iput-object v4, v3, Landroid/content/pm/ApplicationInfo;->dataDir:Ljava/lang/String;
 
-    goto/16 :goto_11
+    goto/16 :goto_13
 
     .end local v50           #ret:I
     :cond_39
@@ -19972,17 +20028,99 @@
 
     iput-object v4, v3, Landroid/content/pm/ApplicationInfo;->nativeLibraryDir:Ljava/lang/String;
 
-    goto/16 :goto_12
+    goto/16 :goto_14
 
     .end local v57           #uidError:Z
     .restart local v21       #dataPathString:Ljava/lang/String;
     .restart local v34       #nativeLibraryDir:Ljava/io/File;
     .restart local v41       #path:Ljava/lang/String;
+    :cond_3a
+    :try_start_8
+    invoke-static/range {p1 .. p1}, Lcom/android/server/pm/PackageManagerService;->isForwardLocked(Landroid/content/pm/PackageParser$Package;)Z
+
+    move-result v3
+
+    if-nez v3, :cond_3c
+
+    invoke-static/range {p1 .. p1}, Lcom/android/server/pm/PackageManagerService;->isExternal(Landroid/content/pm/PackageParser$Package;)Z
+
+    move-result v3
+
+    if-nez v3, :cond_3c
+
+    invoke-virtual/range {v34 .. v34}, Ljava/io/File;->getPath()Ljava/lang/String;
+
+    move-result-object v3
+
+    move-object/from16 v0, v21
+
+    invoke-virtual {v3, v0}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_3b
+
+    move-object/from16 v0, p0
+
+    move-object/from16 v1, p1
+
+    move-object/from16 v2, v45
+
+    invoke-direct {v0, v1, v2}, Lcom/android/server/pm/PackageManagerService;->setInternalAppNativeLibraryPath(Landroid/content/pm/PackageParser$Package;Lcom/android/server/pm/PackageSetting;)V
+
+    new-instance v34, Ljava/io/File;
+
+    .end local v34           #nativeLibraryDir:Ljava/io/File;
+    move-object/from16 v0, p1
+
+    iget-object v3, v0, Landroid/content/pm/PackageParser$Package;->applicationInfo:Landroid/content/pm/ApplicationInfo;
+
+    iget-object v3, v3, Landroid/content/pm/ApplicationInfo;->nativeLibraryDir:Ljava/lang/String;
+
+    move-object/from16 v0, v34
+
+    invoke-direct {v0, v3}, Ljava/io/File;-><init>(Ljava/lang/String;)V
+    :try_end_8
+    .catch Ljava/io/IOException; {:try_start_8 .. :try_end_8} :catch_2
+
+    .restart local v34       #nativeLibraryDir:Ljava/io/File;
+    :cond_3b
+    :try_start_9
+    move-object/from16 v0, v52
+
+    move-object/from16 v1, v34
+
+    invoke-static {v0, v1}, Lcom/android/server/pm/PackageManagerService;->copyNativeLibrariesForInternalApp(Ljava/io/File;Ljava/io/File;)I
+
+    move-result v3
+
+    const/4 v4, 0x1
+
+    if-eq v3, v4, :cond_3c
+
+    const-string v3, "PackageManager"
+
+    const-string v4, "Unable to copy native libraries"
+
+    invoke-static {v3, v4}, Landroid/util/Slog;->e(Ljava/lang/String;Ljava/lang/String;)I
+
+    const/16 v3, -0x6e
+
+    move-object/from16 v0, p0
+
+    iput v3, v0, Lcom/android/server/pm/PackageManagerService;->mLastScanError:I
+    :try_end_9
+    .catch Ljava/io/IOException; {:try_start_9 .. :try_end_9} :catch_1
+
+    const/16 p1, 0x0
+
+    goto/16 :goto_0
+
     :catch_1
     move-exception v22
 
     .local v22, e:Ljava/io/IOException;
-    :try_start_9
+    :try_start_a
     const-string v3, "PackageManager"
 
     const-string v4, "Unable to copy native libraries"
@@ -20002,11 +20140,7 @@
     goto/16 :goto_0
 
     .end local v22           #e:Ljava/io/IOException;
-    :cond_3a
-    sget-boolean v3, Lcom/android/server/pm/PackageManagerService;->DEBUG_INSTALL:Z
-
-    if-eqz v3, :cond_3b
-
+    :cond_3c
     const-string v3, "PackageManager"
 
     new-instance v4, Ljava/lang/StringBuilder;
@@ -20031,7 +20165,6 @@
 
     invoke-static {v3, v4}, Landroid/util/Slog;->i(Ljava/lang/String;Ljava/lang/String;)I
 
-    :cond_3b
     sget-object v3, Lcom/android/server/pm/PackageManagerService;->sUserManager:Lcom/android/server/pm/UserManagerService;
 
     invoke-virtual {v3}, Lcom/android/server/pm/UserManagerService;->getUserIds()[I
@@ -20044,13 +20177,13 @@
     iget-object v4, v0, Lcom/android/server/pm/PackageManagerService;->mInstallLock:Ljava/lang/Object;
 
     monitor-enter v4
-    :try_end_9
-    .catch Ljava/io/IOException; {:try_start_9 .. :try_end_9} :catch_2
+    :try_end_a
+    .catch Ljava/io/IOException; {:try_start_a .. :try_end_a} :catch_2
 
     move-object/from16 v16, v59
 
     .local v16, arr$:[I
-    :try_start_a
+    :try_start_b
     move-object/from16 v0, v16
 
     array-length v0, v0
@@ -20061,12 +20194,12 @@
     const/16 v26, 0x0
 
     .local v26, i$:I
-    :goto_13
+    :goto_15
     move/from16 v0, v26
 
     move/from16 v1, v31
 
-    if-ge v0, v1, :cond_3d
+    if-ge v0, v1, :cond_3e
 
     aget v58, v16, v26
 
@@ -20091,7 +20224,7 @@
 
     move-result v3
 
-    if-gez v3, :cond_3c
+    if-gez v3, :cond_3d
 
     const-string v3, "PackageManager"
 
@@ -20137,102 +20270,22 @@
 
     goto/16 :goto_0
 
-    :cond_3c
+    :cond_3d
     add-int/lit8 v26, v26, 0x1
 
-    goto :goto_13
+    goto :goto_15
 
     .end local v58           #userId:I
-    :cond_3d
+    :cond_3e
     monitor-exit v4
-    :try_end_a
-    .catchall {:try_start_a .. :try_end_a} :catchall_3
 
-    .end local v16           #arr$:[I
-    .end local v21           #dataPathString:Ljava/lang/String;
+    goto/16 :goto_f
+
     .end local v26           #i$:I
     .end local v31           #len$:I
-    .end local v34           #nativeLibraryDir:Ljava/io/File;
-    .end local v59           #userIds:[I
-    :cond_3e
-    :goto_14
-    move-object/from16 v0, v41
-
-    move-object/from16 v1, p1
-
-    iput-object v0, v1, Landroid/content/pm/PackageParser$Package;->mScanPath:Ljava/lang/String;
-
-    and-int/lit8 v3, p3, 0x2
-
-    if-nez v3, :cond_40
-
-    const-string v3, "PackageManager"
-
-    new-instance v4, Ljava/lang/StringBuilder;
-
-    invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v10, "Perform pre-dex opt for package: "
-
-    invoke-virtual {v4, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    move-object/from16 v0, p1
-
-    iget-object v10, v0, Landroid/content/pm/PackageParser$Package;->packageName:Ljava/lang/String;
-
-    invoke-virtual {v4, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    invoke-virtual {v4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v4
-
-    invoke-static {v3, v4}, Landroid/util/Slog;->i(Ljava/lang/String;Ljava/lang/String;)I
-
-    move/from16 v0, p3
-
-    and-int/lit16 v3, v0, 0x80
-
-    if-eqz v3, :cond_3f
-
-    const/4 v3, 0x1
-
-    :goto_15
-    move-object/from16 v0, p0
-
-    move-object/from16 v1, p1
-
-    move/from16 v2, v24
-
-    invoke-direct {v0, v1, v2, v3}, Lcom/android/server/pm/PackageManagerService;->performDexOptLI(Landroid/content/pm/PackageParser$Package;ZZ)I
-
-    move-result v3
-
-    const/4 v4, -0x1
-
-    if-ne v3, v4, :cond_40
-
-    const/16 v3, -0xb
-
-    move-object/from16 v0, p0
-
-    iput v3, v0, Lcom/android/server/pm/PackageManagerService;->mLastScanError:I
-
-    const/16 p1, 0x0
-
-    goto/16 :goto_0
-
-    .restart local v16       #arr$:[I
-    .restart local v21       #dataPathString:Ljava/lang/String;
-    .restart local v34       #nativeLibraryDir:Ljava/io/File;
-    .restart local v59       #userIds:[I
     :catchall_3
     move-exception v3
 
-    :try_start_b
     monitor-exit v4
     :try_end_b
     .catchall {:try_start_b .. :try_end_b} :catchall_3
@@ -20276,13 +20329,13 @@
 
     invoke-static {v3, v4}, Landroid/util/Slog;->e(Ljava/lang/String;Ljava/lang/String;)I
 
-    goto :goto_14
+    goto/16 :goto_f
 
     .end local v27           #ioe:Ljava/io/IOException;
     :cond_3f
     const/4 v3, 0x0
 
-    goto :goto_15
+    goto/16 :goto_10
 
     :cond_40
     move-object/from16 v0, p0
