@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Camera apk feature option -->
+<Config>
+           
+    <!-- camera_flashmode -->
+    <string name="pref_camera_flashmode_key">true</string>
+    
+    <!-- video_flashmode -->
+    <string name="pref_camera_video_flashmode_key">true</string>
+    
+    <!-- camera_mode -->
+    <string name="pref_camera_mode_key">true</string> 
+    
+    <!--camera mode list--> 
+    <string name="common">true</string>
+    <string name="hdr">true</string>   
+    <string name="panorama">true</string>   
+    <string name="beauty">true</string>
+    <string name="slowshtr">false</string>
+    <string name="qrcode">false</string> 
+    <string name="poster">false</string>
+     
+    <!--video record mode list--> 
+    <string name="rec_1080p">true</string>
+    <string name="rec_720p">true</string>
+    <string name="rec_480p">true</string>
+    <string name="rec_hdr">true</string>   
+    <string name="rec_slow_playback">true</string>
+           
+    <!--camera more settings-->    
+    <!-- tap_shutter -->
+    <string name="pref_camera_tapshutter_key">true</string>   
+    <!-- shutter_sound -->
+    <string name="pref_camera_sound_key">true</string>    
+    <!-- time_lapse -->
+    <string name="pref_camera_time_lapse_key">true</string>   
+    <!-- location -->
+    <string name="pref_camera_recordlocation_key">true</string>     
+    <!-- camera picture size -->
+    <string name="pref_camera_picturesize_key">true</string>
+    <!-- whitebalance -->
+    <string name="pref_camera_whitebalance_key">true</string>   
+     <!-- scene mode -->
+    <string name="pref_camera_scenemode_key">true</string>     
+    <!-- recoder_mode -->
+    <string name="pref_rec_mode_key">true</string>
+    <!-- voice shutter -->
+    <string name="pref_voice_shutter_key">true</string>
+    <!-- storage -->
+    <string name="pref_camera_storage_key">true</string>
+    
+    <!-- support external ISP -->
+    <string name="camera_external_isp">false</string>
+	<string name="camera_support_gyro">true</string>
+	
+	<string name="camera_support_quick_capture">false</string>
+	<string name="camera_pause_audio_play_on_resume">false</string>
+	<string name="camera_delay_play_shutter_sound">false</string>
+	<string name="camera_low_power_disable_flash">false</string>
+	
+	<!-- Camera Face Detection-->
+	<string name="pref_camera_face_detection">on</string>
+	
+	<string name="camera_support_video_snap_shot">true</string>
+	
+	<string name="camera_photo_preview_size_for_4_3">800x600</string>
+    <string name="camera_photo_preview_size_for_16_9">1280x720</string>
+
+	<!-- VFB 3.0 -->
+	<string name="camera_support_vfb">false</string>
+    
+    <!-- override res -->
+    <!-- zsl -->
+    <string name="pref_camera_zsl_default">on</string>   
+     
+    <!-- camera default picture size. -->
+    <string name="back_camera_default_picture_size" >2560x1920</string>
+    <string name="front_camera_default_picture_size" >1600x1200</string>   
+      
+    <!-- Supported Camera picture size for back camera in mega-->
+    <string-array name="oppo_back_camera_supported_picture_size">
+    	<item>2560x1920</item>
+        <item>2048x1536</item>
+    </string-array>
+    
+    <!-- Supported Camera picture size for front camera in mega-->
+    <string-array name="oppo_front_camera_supported_picture_size">
+        <item>1600x1200</item>
+    </string-array>
+    
+    <string name="pref_rec_mode_default" >rec_720p</string>
+    <string name="pref_rec_mode_default_front" >rec_720p</string>  
+    
+    <!-- Supported Camera mode for back camera -->
+    <string-array name="oppo_back_camera_supported_rec_mode">
+    	<item>rec_720p</item>
+    	<item>rec_480p</item>
+    </string-array>
+
+    <!-- Supported Camera mode for front camera -->
+    <string-array name="oppo_front_camera_supported_rec_mode">
+        <item>rec_720p</item>
+        <item>rec_480p</item>
+    </string-array>
+</Config>

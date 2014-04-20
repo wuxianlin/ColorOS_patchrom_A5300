@@ -126,11 +126,49 @@ firstpatch : getsmali resource
 	
 fullota : ${DST_JAR_OUT}
 	@echo "Build the full update package"
+	rm -rf out/gen*
+	rm -rf *.log
+	rm -rf out/*.apk
+	mkdir -p out/gen
+	mkdir -p out/gen-oppo	
+	#compile framework-res.apk
+	${PORT_TOOLS}/aapt p -f -m -x -z -J out/gen -S ${PORT_BUILD}/res-build/oppo-overlay/res/ -S out/framework-res/res  -M out/framework-res/AndroidManifest.xml -F out/framework-res-unsigned.apk -P out/gen/public_resources.xml -A out/framework-res/assets --auto-add-overlay > compile.framework-res.log	
+	#sign framework-res.apk
+	java -jar ${PORT_TOOLS}/signapk.jar ${PORT_TOOLS}/keys/platform.x509.pem ${PORT_TOOLS}/keys/platform.pk8  out/framework-res-unsigned.apk  out/framework-res.apk	
+	#compile oppo res
+	${PORT_TOOLS}/aapt_for_oppo_mtk p -f -m -x -z -J out/gen-oppo -S ${PORT_BUILD}/res-build/oppo-framework-res/res  -M ${PORT_BUILD}/res-build/oppo-framework-res/AndroidManifest.xml -F out/oppo-framework-res-unsigned.apk -P out/gen-oppo/public_resources.xml -A ${PORT_BUILD}/res-build/oppo-framework-res/assets --oppo-package 12 --oppo-public-id 1024 -I out/framework-res.apk > compile.oppo-res.log	
+	#sign oppo-framework-res.apk
+	java -jar ${PORT_TOOLS}/signapk.jar ${PORT_TOOLS}/keys/platform.x509.pem ${PORT_TOOLS}/keys/platform.pk8  out/oppo-framework-res-unsigned.apk  out/oppo-framework-res.apk
 	rm -rf new-update/
 	${PORT_TOOLS}/copy_fold.sh update/ new-update/
 	echo "ro.build.author=${AUTHOR_NAME}" >> new-update/system/build.prop
 	echo "ro.build.channel=${FROM_CHANNEL}" >> new-update/system/build.prop
 	rm -rf new-update/system/app/*
+	rm -rf new-update/system/ang_pico
+	rm -rf new-update/system/lang_pico
+	rm -rf new-update/system/chivin
+	rm -rf new-update/system/vendor/pittpatt
+	rm -rf new-update/system/framework/com.google.android.*.jar
+	rm -rf new-update/system/etc/permissions/com.google.android.*.xml
+	rm -rf new-update/system/etc/permissions/features.xml
+	rm -rf new-update/system/etc/g.prop
+	rm -rf new-update/system/etc/language.db
+	rm -rf new-update/system/etc/location.db
+	rm -rf new-update/system/usr/srec
+	rm -rf new-update/system/lib/libfacelock_jni.so
+	rm -rf new-update/system/lib/libfilterpack_facedetect.so
+	rm -rf new-update/system/lib/libfrsdk.so
+	rm -rf new-update/system/lib/libgcomm_jni.so
+	rm -rf new-update/system/lib/libgoogle_recognizer_jni.so
+	rm -rf new-update/system/lib/libgtalk_jni.so
+	rm -rf new-update/system/lib/libgtalk_stabilize.so
+	rm -rf new-update/system/lib/liblightcycle.so
+	rm -rf new-update/system/lib/libjni_pinyinime.so
+	rm -rf new-update/system/lib/libpatts_engine_jni_api.so
+	rm -rf new-update/system/lib/libspeexwrapper.so
+	rm -rf new-update/system/lib/libvorbisencoder.so
+	rm -rf new-update/system/media/*
+	rm -rf new-update/system/framework/theme-res-*.apk
 	@echo "${PORT_BUILD}/ColorSystem/*"
 	${PORT_TOOLS}/copy_fold.sh ${PORT_BUILD}/ColorSystem new-update/system
 	${PORT_TOOLS}/copy_fold.sh out/framework new-update/system/framework
@@ -139,7 +177,14 @@ fullota : ${DST_JAR_OUT}
 
 #we will use $(CUSTOM_UPDATE) to cover, so you need put your change file or some apk can't be deleted
 	${PORT_TOOLS}/copy_fold.sh ${CUSTOM_UPDATE} new-update/
-
+	mv new-update/system/app/ColorOSforum.apk new-update/data/app
+	mv new-update/system/app/IFlySpeechService.apk new-update/data/app
+	rm -rf new-update/system/app/OppoBluetooth.apk
+	rm -rf new-update/system/app/OppoCompass.apk
+	rm -rf new-update/system/app/GameCenter_ColorOS_20131106_release_4.1.0.apk
+	rm -rf new-update/system/app/ThemeSpace_OPPOROM_T20140320_release_V2.2.8.apk
+	rm -rf new-update/system/app/Reader_ROM_2014320_release_V2.3.1.apk
+	rm -rf new-update/system/app/NearMeMarket_opporom_20140307_release_3.2.1.apk
 	${PORT_TOOLS}/resign.sh dir new-update
 	rm -f color-update.zip
 	cd new-update/; zip -q -r -y color-update.zip .; mv color-update.zip ..
